@@ -1,6 +1,8 @@
+// Home.tsx
 "use client"; 
 import { useEffect, useState } from 'react';
 import VoiceItem from './components/voice-item/voiceItem';
+import Jumbotron from './components/jumbotron/Jumbotron';
 
 interface Voice {
   voice_id: string; 
@@ -53,6 +55,7 @@ export default function Home() {
     if (!text.trim()) return;
   
     console.log('Generating audio for voiceId:', voiceId);
+    setLoading(voiceId);
   
     fetch('/api/generate-audio', {
       method: 'POST',
@@ -72,6 +75,7 @@ export default function Home() {
       newAudio.play();
       setAudio(newAudio);
       setPlaying(URL.createObjectURL(blob));
+      setLoading(null);
     })
     .catch((error) => {
       setLoading(null);
@@ -80,27 +84,35 @@ export default function Home() {
   };
 
   return (
-    <div style={{ backgroundColor: '#121212', color: 'white', padding: '20px' }}>
-      <h1>Vozes Disponíveis</h1>
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        rows={2}
-        style={{ width: '100%', padding: '10px', borderRadius: '4px', marginBottom: '20px', color:'black' }}
-        placeholder="Digite o texto para gerar áudio..."
+    <div>
+      <Jumbotron 
+        title="Transforme o Texto em Voz" 
+        subtitle="Liberte o poder da nossa tecnologia de ponta para gerar fala realista e cativante em uma ampla gama de idiomas." 
+        targetSectionId="audio-section"
       />
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {voices.map((voice) => (
-          <VoiceItem
-            key={voice.voice_id}
-            voice={voice}
-            text={text}
-            onGenerateAudio={handleGenerateAudio}
-            onPlayPause={handlePlayPause}
-            playing={playing}
+      <div id="audio-section" className="bg-gray-900 text-white p-8">
+        <div className="mb-6">
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={4}
+            className="block p-2.5 w-full text-sm text-white bg-gray-800 rounded-lg border border-gray-700 focus:ring-green-500 focus:border-green-500"
+            placeholder="Digite o texto para gerar áudio..."
           />
-        ))}
-      </ul>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {voices.map((voice) => (
+            <VoiceItem
+              key={voice.voice_id}
+              voice={voice}
+              onPlayPause={handlePlayPause}
+              onGenerateAudio={handleGenerateAudio}
+              isPlaying={playing}
+              isLoading={loading}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
