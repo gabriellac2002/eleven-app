@@ -3,14 +3,12 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const { text, voiceId }: { text: string; voiceId: string } = await request.json();
-    console.log('Received text:', text); 
-    console.log('Received voiceId:', voiceId); 
 
     if (!text || !voiceId) {
       return NextResponse.json({ error: 'Text and voiceId are required' }, { status: 400 });
     }
 
-    console.log("cheguei aqui")
+    console.log("cheguei aqui");
 
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
       method: 'POST',
@@ -40,7 +38,26 @@ export async function POST(request: Request) {
       throw new Error('No audio stream found');
     }
 
-    return new NextResponse(audioStream, {
+    const readableStream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        const reader = audioStream.getReader();
+        
+        const processStream = async () => {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              controller.close();
+              break;
+            }
+            controller.enqueue(value!);
+          }
+        };
+
+        processStream().catch(err => controller.error(err));
+      }
+    });
+
+    return new NextResponse(readableStream, {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Disposition': 'attachment; filename="output.mp3"'
