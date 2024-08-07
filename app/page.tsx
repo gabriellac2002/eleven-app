@@ -1,5 +1,6 @@
 "use client"; 
 import { useEffect, useState } from 'react';
+import VoiceItem from './components/voice-item/voiceItem';
 
 interface Voice {
   voice_id: string; 
@@ -77,7 +78,6 @@ export default function Home() {
       console.error('Error generating audio:', error);
     });
   };
-  
 
   return (
     <div style={{ backgroundColor: '#121212', color: 'white', padding: '20px' }}>
@@ -91,25 +91,14 @@ export default function Home() {
       />
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {voices.map((voice) => (
-          <li key={voice.voice_id} style={{ marginBottom: '20px' }}>
-            <div><strong>Name:</strong> {voice.name}</div>
-            <div><strong>Category:</strong> {voice.category}</div>
-            <div><strong>Labels:</strong> {Array.isArray(voice.labels) ? voice.labels.join(', ') : 'No labels'}</div>
-            {text.trim() && (
-              <button
-                onClick={() => handleGenerateAudio(voice.voice_id)} 
-                style={{ marginTop: '10px', padding: '10px', backgroundColor: '#1DB954', color: 'white', border: 'none', borderRadius: '4px' }}
-              >
-                {loading === voice.voice_id ? 'Loading...' : 'Generate & Play'}
-              </button>
-            )}
-            <button
-              onClick={() => handlePlayPause(voice.preview_url)}
-              style={{ marginTop: '10px', padding: '10px', backgroundColor: '#1DB954', color: 'white', border: 'none', borderRadius: '4px' }}
-            >
-              {playing === voice.preview_url ? 'Pause' : 'Play'}
-            </button>
-          </li>
+          <VoiceItem
+            key={voice.voice_id}
+            voice={voice}
+            text={text}
+            onGenerateAudio={handleGenerateAudio}
+            onPlayPause={handlePlayPause}
+            playing={playing}
+          />
         ))}
       </ul>
     </div>
