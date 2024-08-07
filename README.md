@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Projeto de Estágio de Desenvolvimento TypeScript
 
-## Getting Started
+## O Projeto
 
-First, run the development server:
+Este projeto consiste em uma aplicação Next.js que interage com o serviço de "texto para voz" da ElevenLabs. A aplicação permite listar vozes, escutar amostras e converter um texto digitado pelo usuário em áudio utilizando essas vozes.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Requisitos
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Framework**: Next.js
+- **Tipo de Projeto**: Frontend e Backend
+- **Linguagem**: TypeScript
+- **Pacote Visual**: Ant-Design, Mantine ou outro pacote visual simples
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Funcionalidades
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### Listar Vozes
 
-## Learn More
+- Ao abrir a aplicação, na rota raiz, a aplicação solicita as vozes à API do Next.js.
+- A API do Next.js obtém as vozes da ElevenLabs e retorna a resposta.
+- A interface lista as vozes, mostrando `name`, `category`, e `labels`.
+- Para cada voz, é possível dar play/pause no `preview_url` para escutar uma amostra.
 
-To learn more about Next.js, take a look at the following resources:
+#### Falar Texto Próprio
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Um input está disponível no topo da página onde o usuário pode digitar um texto.
+- Quando um texto está presente, um botão de play aparece ao lado de cada voz.
+- Ao clicar no botão de play, um loader é exibido e o backend é chamado para obter o áudio.
+- A API gera o áudio com a voz escolhida e o texto digitado.
+- O arquivo gerado é salvo e a interface toca o áudio quando disponível.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Publicação
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+O projeto está publicado usando o Vercel. Conectei minha conta do GitHub, informei as variáveis de ambiente e publiquei o projeto.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contato
+
+Se tiver alguma dúvida sobre o projeto, entre em contato com:
+
+- **Gabriella Cruz e Silva**
+- **E-mail**: gabriellacsilva20022@gmail.com
+- **Telefone**: 932984579233
