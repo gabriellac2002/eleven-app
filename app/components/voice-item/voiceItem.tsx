@@ -1,11 +1,19 @@
 import React from 'react';
-import { UserIcon } from '@heroicons/react/24/solid'; 
+import { UserIcon } from '@heroicons/react/24/solid';
+
+interface Labels {
+  description: string;
+  gender: string;
+  age: string;
+  accent: string;
+  use_case: string;
+}
 
 interface Voice {
   voice_id: string;
   name: string;
   category: string;
-  labels: string[];
+  labels: Labels;
   preview_url: string;
 }
 
@@ -18,6 +26,8 @@ interface VoiceItemProps {
 }
 
 const VoiceItem: React.FC<VoiceItemProps> = ({ voice, onPlayPause, onGenerateAudio, isPlaying, isLoading }) => {
+    const { description, gender, age, accent, use_case } = voice.labels;
+    
     return (
         <div className="w-full max-w-sm bg-gray-900 border border-gray-800 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center p-4 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
           <div className="w-24 h-24 mb-3 mt-5 rounded-full flex items-center justify-center bg-gray-800 dark:bg-gray-700">
@@ -26,7 +36,7 @@ const VoiceItem: React.FC<VoiceItemProps> = ({ voice, onPlayPause, onGenerateAud
           <h5 className="mb-1 text-xl font-medium text-white">{voice.name}</h5>
           <span className="text-sm text-gray-400">{voice.category}</span>
           <div className="text-sm text-gray-500 dark:text-gray-300 mt-1">
-            {voice.labels.length > 0 ? voice.labels.join(', ') : 'No labels'}
+            {description}, {gender}, {age}, {accent}, {use_case}
           </div>
           <div className="flex mt-4 space-x-2">
             <button
