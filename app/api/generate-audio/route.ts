@@ -1,4 +1,8 @@
 import { NextResponse } from 'next/server';
+import {put} from "@vercel/blob"
+import fs from "fs";
+import path from "path";
+
 
 export async function POST(request: Request) {
   try {
@@ -8,25 +12,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Text and voiceId are required' }, { status: 400 });
     }
 
-    console.log("cheguei aqui");
 
-    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        'Accept': 'audio/mpeg',
         'xi-api-key': process.env.XI_API_KEY as string,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        text,
-        model_id: 'eleven_multilingual_v2',
+        text: text,
         voice_settings: {
-          stability: 0.5,
-          similarity_boost: 0.8,
-          style: 0.0,
-          use_speaker_boost: true
-        }
-      })
+          stability: 0,
+          similarity_boost: 0,
+        },
+      }),
     });
 
     if (!response.ok) {
@@ -38,33 +38,24 @@ export async function POST(request: Request) {
       throw new Error('No audio stream found');
     }
 
-    const readableStream = new ReadableStream<Uint8Array>({
-      start(controller) {
-        const reader = audioStream.getReader();
-        
-        const processStream = async () => {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) {
-              controller.close();
-              break;
-            }
-            controller.enqueue(value!);
-          }
-        };
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const file = Math.random().toString(36).substring(7);
 
-        processStream().catch(err => controller.error(err));
-      }
-    });
+    
 
-    return new NextResponse(readableStream, {
+    await put(`${file}.mp3`, buffer, {
+      access: "public"
+    })
+
+    return new NextResponse(buffer, {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Disposition': 'attachment; filename="output.mp3"'
       }
     });
   } catch (error) {
-    console.error('Error:', (error as Error).message); // Adicionado para depuração
+    console.error('Error:', (error as Error).message); 
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }

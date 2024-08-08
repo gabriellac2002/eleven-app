@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserIcon } from '@heroicons/react/24/solid'; // Importe o ícone de pessoa
+import { UserIcon } from '@heroicons/react/24/solid'; 
 
 interface Voice {
   voice_id: string;
@@ -19,7 +19,7 @@ interface VoiceItemProps {
 
 const VoiceItem: React.FC<VoiceItemProps> = ({ voice, onPlayPause, onGenerateAudio, isPlaying, isLoading }) => {
     return (
-        <div className="w-full max-w-sm bg-gray-900 border border-gray-800 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center p-4">
+        <div className="w-full max-w-sm bg-gray-900 border border-gray-800 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center p-4 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
           <div className="w-24 h-24 mb-3 mt-5 rounded-full flex items-center justify-center bg-gray-800 dark:bg-gray-700">
             <UserIcon className="w-14 h-14 text-green-500 dark:text-green-400" />
           </div>
