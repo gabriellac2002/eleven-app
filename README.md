@@ -9,7 +9,6 @@ Este projeto consiste em uma aplicação Next.js que interage com o serviço de 
 - **Framework**: Next.js
 - **Tipo de Projeto**: Frontend e Backend
 - **Linguagem**: TypeScript
-- **Pacote Visual**: Ant-Design, Mantine ou outro pacote visual simples
 
 ### Funcionalidades
 
@@ -31,7 +30,8 @@ Este projeto consiste em uma aplicação Next.js que interage com o serviço de 
 
 ## Publicação
 
-O projeto está publicado usando o Vercel. Conectei minha conta do GitHub, informei as variáveis de ambiente e publiquei o projeto.
+O projeto está publicado usando o Vercel.
+Link: https://eleven-app-ten.vercel.app/
 
 ## Contato
 
