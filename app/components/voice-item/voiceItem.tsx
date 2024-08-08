@@ -1,21 +1,6 @@
 import React from 'react';
 import { UserIcon } from '@heroicons/react/24/solid';
-
-interface Labels {
-  description: string;
-  gender: string;
-  age: string;
-  accent: string;
-  use_case: string;
-}
-
-interface Voice {
-  voice_id: string;
-  name: string;
-  category: string;
-  labels: Labels;
-  preview_url: string;
-}
+import { Voice } from '@/app/types/voice';
 
 interface VoiceItemProps {
   voice: Voice;

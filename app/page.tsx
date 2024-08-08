@@ -1,16 +1,8 @@
-// Home.tsx
 "use client"; 
 import { useEffect, useState } from 'react';
 import VoiceItem from './components/voice-item/voiceItem';
 import Jumbotron from './components/jumbotron/Jumbotron';
-
-interface Voice {
-  voice_id: string; 
-  name: string;
-  category: string;
-  labels: string[]; 
-  preview_url: string;
-}
+import { Voice } from './types/voice';
 
 export default function Home() {
   const [voices, setVoices] = useState<Voice[]>([]);
